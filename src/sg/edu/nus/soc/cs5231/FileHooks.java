@@ -11,6 +11,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 public class FileHooks implements IXposedHookLoadPackage {
 		static String [] whiteList = { 	"com.google.android.gms:snet",
 										"com.android.vending",
+										"android",
+										
 									 };
 		public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
 				//XposedBridge.log(lpparam.packageName + " is loaded...");
