@@ -11,14 +11,15 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 
 public class FileHooks implements IXposedHookLoadPackage {
-		static String [] whiteList = { 	"com.google.android.gms:snet",
-										"com.android.vending",
-										"android",
-										
-									 };
+//		static String [] blackList = { 	"com.google.android.gms:snet",
+//										"com.android.vending",
+//										"android",
+//									 };
+		static String [] blackList = { 	"jp.naver.line.android"	};
+		
 		public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
 				//XposedBridge.log(lpparam.packageName + " is loaded...");
-				if( IsInWhiteList(lpparam.processName) )
+				if( !IsInBlackList(lpparam.processName) )
 				{
 					return;
 				}
@@ -176,9 +177,9 @@ public class FileHooks implements IXposedHookLoadPackage {
 			});
 		}
 		
-		private static boolean IsInWhiteList(String target)
+		private static boolean IsInBlackList(String target)
 		{
-			for(String str : whiteList)
+			for(String str : blackList)
 			{
 				if(target.equals(str))
 				{
