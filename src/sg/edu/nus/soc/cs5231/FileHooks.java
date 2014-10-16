@@ -30,6 +30,54 @@ public class FileHooks implements IXposedHookLoadPackage {
 				hookReadFile(lpparam);
 				hookWriteFile(lpparam);
 				hookOpenFile(lpparam);
+				hookOSEnvironment(lpparam);
+		}
+		
+		private void hookOSEnvironment(final LoadPackageParam lpparam)
+		{
+			//Data Directory
+			findAndHookMethod("android.os.Environment", lpparam.classLoader, "getDataDirectory", new XC_MethodHook() {
+				@Override
+				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+					XposedBridge.log("Jason: " + lpparam.processName + " trying to get the user's data directory.");
+				}
+			});
+			//Download/Cache Directory
+			findAndHookMethod("android.os.Environment", lpparam.classLoader, "getDownloadCacheDirectory", new XC_MethodHook() {
+				@Override
+				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+					XposedBridge.log("Jason: " + lpparam.processName + " trying to get the download/cache content directory.");
+				}
+			});
+			//External Storage Directory
+			findAndHookMethod("android.os.Environment", lpparam.classLoader, "getExternalStorageDirectory", new XC_MethodHook() {
+				@Override
+				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+					XposedBridge.log("Jason: " + lpparam.processName + " trying to get primary external storage directory.");
+				}
+			});
+			//External Storage Directory w/ Type
+			findAndHookMethod("android.os.Environment", lpparam.classLoader, "getExternalStoragePublicDirectory", String.class, new XC_MethodHook() {
+				@Override
+				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+					XposedBridge.log("Jason: " + lpparam.processName + " trying to get primary external storage directory that stores "+param.args[0]+".");
+				}
+			});
+			//External Storage State
+			findAndHookMethod("android.os.Environment", lpparam.classLoader, "getExternalStorageState", new XC_MethodHook() {
+				@Override
+				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+					XposedBridge.log("Jason: " + lpparam.processName + " trying to get primary external storage directory's state.");
+				}
+			});
+			//Root Directory
+			findAndHookMethod("android.os.Environment", lpparam.classLoader, "getRootDirectory", new XC_MethodHook() {
+				@Override
+				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+					XposedBridge.log("Jason: " + lpparam.processName + " trying to get the root directory.");
+				}
+			});
+			
 		}
 		
 		private void hookOpenFile(final LoadPackageParam lpparam)
