@@ -1,9 +1,11 @@
 package sg.edu.nus.soc.cs5231;
 
 import static de.robv.android.xposed.XposedHelpers.*;
+
+import java.net.URI;
+
+import android.net.Uri;
 import de.robv.android.xposed.*;
-import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import static de.robv.android.xposed.XposedBridge.*;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
@@ -26,6 +28,46 @@ public class FileHooks implements IXposedHookLoadPackage {
 				hookCreateFile(lpparam);
 				hookReadFile(lpparam);
 				hookWriteFile(lpparam);
+				hookOpenFile(lpparam);
+		}
+		
+		private void hookOpenFile(final LoadPackageParam lpparam)
+		{
+			final Class<?> classFinder = findClass("java.io.File", lpparam.classLoader);
+			hookAllConstructors(classFinder, new XC_MethodHook() { 
+				@Override
+				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+					Object arg1 = param.args[0];
+					String fileName = "unknown";
+					//XposedBridge.log("DEBUG: param.args.length = " + param.args.length);
+					if(param.args.length == 1)
+					{
+						if(arg1 instanceof URI)
+						{
+							URI uri = (URI)arg1;
+							fileName = uri.getRawPath();
+						}
+						if(arg1 instanceof String)
+						{
+							fileName = (String)arg1;
+						}
+					}
+					else if(param.args.length == 2)
+					{
+						if(arg1 instanceof String)
+						{
+							fileName = (String)arg1+"/"+param.args[1];
+						}
+						if(arg1 instanceof java.io.File)
+						{
+							java.io.File file = (java.io.File)arg1;
+							fileName = file.getAbsolutePath();
+						}
+						
+					}
+					XposedBridge.log("Jason: " + lpparam.processName + " trying to open file " + fileName + ".");
+				}
+			});
 		}
 			
 		private void hookReadFile(final LoadPackageParam lpparam)
