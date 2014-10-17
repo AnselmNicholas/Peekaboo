@@ -2,8 +2,6 @@ package sg.edu.nus.soc.cs5231;
 
 import static de.robv.android.xposed.XposedHelpers.*;
 import de.robv.android.xposed.*;
-import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import static de.robv.android.xposed.XposedBridge.*;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
