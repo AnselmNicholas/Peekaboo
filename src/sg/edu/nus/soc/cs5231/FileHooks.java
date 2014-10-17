@@ -1,12 +1,14 @@
 package sg.edu.nus.soc.cs5231;
 
-import static de.robv.android.xposed.XposedHelpers.*;
+import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
+import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.findClass;
 
 import java.net.URI;
 
-import android.net.Uri;
-import de.robv.android.xposed.*;
-import static de.robv.android.xposed.XposedBridge.*;
+import de.robv.android.xposed.IXposedHookLoadPackage;
+import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 

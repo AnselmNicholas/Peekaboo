@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="sg.edu.nus.soc.cs5231"
     android:versionCode="1"
@@ -21,6 +22,16 @@
         <meta-data
             android:name="xposedminversion"
             android:value="54" />
+
+        <activity
+            android:name=".CS5231Settings"
+            android:label="@string/title_activity_cs5231_settings" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

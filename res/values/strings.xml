@@ -1,5 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">CS5231</string>
+    <string name="title_activity_cs5231_settings">CS5231 Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
