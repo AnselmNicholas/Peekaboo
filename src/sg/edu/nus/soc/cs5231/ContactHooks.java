@@ -11,9 +11,6 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class ContactHooks implements IXposedHookLoadPackage {
-	
-	
-	@Override
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 		hookContactsContract(lpparam); //android.provider.ContactsContract
 		hookContactsContractContact(lpparam); //android.provider.ContactsContract.Contact
