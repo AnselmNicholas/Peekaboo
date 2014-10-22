@@ -24,10 +24,14 @@ public class CallLogHooks implements IXposedHookLoadPackage {
 		hookAllConstructors(classFinder, new XC_MethodHook() { 
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				XposedBridge.log("["+SharedUtilities.getTimeNow()+"]"+
+				/*XposedBridge.log("["+SharedUtilities.getTimeNow()+"]"+
 						"["+lpparam.processName+"]"+
 						"["+targetClass+"]"+
 						"["+methodConstructor+"] "+
+						"CallLog object initialized. "+
+						"appInfo = "+lpparam.appInfo);*/
+				XposedBridge.log(SharedUtilities.generatePreamble(
+						lpparam.processName, targetClass, methodConstructor) + 
 						"CallLog object initialized. "+
 						"appInfo = "+lpparam.appInfo);
 			}
@@ -45,10 +49,14 @@ public class CallLogHooks implements IXposedHookLoadPackage {
 		hookAllConstructors(classFinder, new XC_MethodHook() { 
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				XposedBridge.log("["+SharedUtilities.getTimeNow()+"]"+
+				/*XposedBridge.log("["+SharedUtilities.getTimeNow()+"]"+
 						"["+lpparam.processName+"]"+
 						"["+targetClass+"]"+
 						"["+methodConstructor+"] "+
+						"CallLog.Calls object initialized. "+
+						"appInfo = "+lpparam.appInfo);*/
+				XposedBridge.log(SharedUtilities.generatePreamble(
+						lpparam.processName, targetClass, methodConstructor) + 
 						"CallLog.Calls object initialized. "+
 						"appInfo = "+lpparam.appInfo);
 			}
@@ -60,10 +68,13 @@ public class CallLogHooks implements IXposedHookLoadPackage {
 				new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				XposedBridge.log("["+SharedUtilities.getTimeNow()+"]"+
+				/*XposedBridge.log("["+SharedUtilities.getTimeNow()+"]"+
 						"["+lpparam.processName+"]"+
 						"["+targetClass+"]"+
 						"["+methodGetLastOutgoingCall+"] "+
+						"getLastOutgoingCall(Context) invoked.");*/
+				XposedBridge.log(SharedUtilities.generatePreamble(
+						lpparam.processName, targetClass, methodGetLastOutgoingCall) + 
 						"getLastOutgoingCall(Context) invoked.");
 			}
 		});

@@ -12,4 +12,11 @@ public class SharedUtilities {
 		Calendar cal = Calendar.getInstance();
 		return df.format(cal.getTime());
 	}
+	
+	public static String generatePreamble(String procName, String className, String funcName) {
+		String output = "[" + getTimeNow() + "][" + procName + "][" + 
+							className + "][" + funcName + "] ";
+		
+		return output;
+	}
 }
