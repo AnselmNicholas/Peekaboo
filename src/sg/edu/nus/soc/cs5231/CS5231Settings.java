@@ -2,6 +2,7 @@ package sg.edu.nus.soc.cs5231;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import android.app.Activity;
@@ -36,6 +37,11 @@ public class CS5231Settings extends Activity {
 				
 			}	
 		}
+		//Lazy remove duplicates
+		HashSet<String> hashSet = new HashSet<String>(processNames);
+		processNames = new ArrayList<String>(hashSet);
+		
+		//Sort after remove duplicates
 		Collections.sort(processNames);
 		for(String processName : processNames){
 			addProcessName(processName);

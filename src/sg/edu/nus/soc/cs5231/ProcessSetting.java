@@ -1,7 +1,7 @@
 package sg.edu.nus.soc.cs5231;
 
 public class ProcessSetting {
-	private long id;
+	private long id = 0;
 	public long getId() {
 		return id;
 	}
@@ -26,7 +26,7 @@ public class ProcessSetting {
 		this.enableLogging = enableLogging;
 	}
 
-	private String processName;
+	private String processName = "";
 	private boolean enableLogging = false;
 	
 	// Will be used by the ArrayAdapter in the ListView

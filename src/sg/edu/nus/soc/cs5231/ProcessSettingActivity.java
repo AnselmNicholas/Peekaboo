@@ -31,7 +31,7 @@ public class ProcessSettingActivity extends Activity {
 		{
 		    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 		    {
-		    	ProcessSettingDBHelper dbHelper = new ProcessSettingDBHelper(ProcessSettingActivity.this.getApplicationContext());
+		    	ProcessSettingDBHelper dh = new ProcessSettingDBHelper(ProcessSettingActivity.this.getApplicationContext());
 	    		ProcessSetting psetting_new = new ProcessSetting();
 	    		psetting_new.setProcessName(process_name);
 		        if ( isChecked )
@@ -40,7 +40,7 @@ public class ProcessSettingActivity extends Activity {
 		        }else{
 		    		psetting_new.setEnableLogging(false);
 		        }
-		        dbHelper.updateProcessSetting(psetting_new);
+		        dh.updateProcessSetting(psetting_new);
 
 		    }
 		});

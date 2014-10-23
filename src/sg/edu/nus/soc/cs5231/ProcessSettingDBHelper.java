@@ -30,31 +30,27 @@ public class ProcessSettingDBHelper {
 		cursor.moveToFirst();
 		ProcessSetting psetting = cursorToProcessSetting(cursor);
 		cursor.close();
-		database.close();
 		return psetting;
 	}
 	
 	public void updateProcessSetting(ProcessSetting psetting) {
 		database = dbHelper.getWritableDatabase();
-		String strFilter = MySQLiteHelper.COLUMN_PNAME+"=" + psetting.getProcessName();
-		ContentValues args = new ContentValues();
-		args.put(MySQLiteHelper.COLUMN_ENABLED, psetting.isEnableLogging() == true ? 1 : 0);
-		database.update(MySQLiteHelper.TABLE_PROCESS_SETTINGS, args, strFilter, null);
-		database.close();
+		String whereClause = MySQLiteHelper.COLUMN_PNAME+"=?";
+		ContentValues values = new ContentValues();
+		values.put(MySQLiteHelper.COLUMN_ENABLED, psetting.isEnableLogging() == true ? 1 : 0);
+		database.update(MySQLiteHelper.TABLE_PROCESS_SETTINGS, values, whereClause, new String[]{psetting.getProcessName()});
 	}
 
 	public ProcessSetting getProcessSetting(String process_name) {
 		database = dbHelper.getReadableDatabase();
-		Cursor cursor = database.query(MySQLiteHelper.TABLE_PROCESS_SETTINGS, new String[]{MySQLiteHelper.COLUMN_PNAME}, MySQLiteHelper.COLUMN_PNAME+"=?", new String[]{process_name}, null, null, null);
+		Cursor cursor = database.query(MySQLiteHelper.TABLE_PROCESS_SETTINGS, allColumns, MySQLiteHelper.COLUMN_PNAME+"=?", new String[]{process_name}, null, null, null);
 		if(cursor.getCount()<1){
 			cursor.close();
-			dbHelper.close();
 			return null;
 		}
 		cursor.moveToFirst();
 		ProcessSetting psetting = cursorToProcessSetting(cursor);
 		cursor.close();
-		database.close();
 		return psetting;
 	}
 
