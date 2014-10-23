@@ -1,13 +1,22 @@
 package sg.edu.nus.soc.cs5231;
 
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
+import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
+import static de.robv.android.xposed.XposedHelpers.getStaticObjectField;
 
 import java.net.URI;
 
+import android.app.AndroidAppHelper;
+import android.content.Context;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.util.Log;
+
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 
@@ -19,11 +28,24 @@ public class FileHooks implements IXposedHookLoadPackage {
 		static String [] blackList = { 	"jp.naver.line.android"	};
 		
 		public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
-				//XposedBridge.log(lpparam.packageName + " is loaded...");
+//				XposedBridge.log(lpparam.packageName + " is loaded...");
 				if( !IsInBlackList(lpparam.processName) )
 				{
 					return;
 				}
+				Context context = getContext();
+				if(context == null)
+				{
+					XposedBridge.log("CONTEXT NULL");
+				}
+				try {
+					context.createPackageContext(CS5231Settings.class.getPackage().getName(), Context.CONTEXT_IGNORE_SECURITY);
+				} catch (NameNotFoundException e) {
+					XposedBridge.log("NAME NOT FOUND");
+				}
+				ProcessSettingDBHelper db = new ProcessSettingDBHelper(context);
+				XposedBridge.log("Got db");
+				
 				hookListFiles(lpparam);
 				hookRenameFile(lpparam);
 				hookDeleteFile(lpparam);
@@ -237,4 +259,34 @@ public class FileHooks implements IXposedHookLoadPackage {
 			}
 			return false;
 		}
+		
+		 private Context getContext(){
+	         // Try to get a context in one way or another from system
+	         Context context;
+
+	         // Seems to work for 4.4
+	         Log.i("getContext", "Trying to get context from AndroidAppHelper");
+	         context = AndroidAppHelper.currentApplication();
+
+	         // Seems to work for 4.2
+	         if (context == null) {
+	             Log.i("getContext", "Trying to get context from mSystemContext");
+	             Object systemContext = getStaticObjectField(findClass("android.app.ActivityThread", null), "mSystemContext");
+	             if (systemContext != null) {
+	                 context = (Context) systemContext;
+	             }
+	         }
+
+	         // Seems to work for 4.1 and 4.0
+	         if (context == null) {
+	             Log.i("getContext", "Trying to get activityThread from systemMain");
+	             Object activityThread = callStaticMethod(findClass("android.app.ActivityThread", null), "systemMain");
+	             if (activityThread != null){
+	                 Log.i("getContext", "Trying to get context from getSystemContext");
+	                 context = (Context) callMethod(activityThread, "getSystemContext");
+	             }
+	         }
+
+	         return context;
+	     }
 }
