@@ -32,6 +32,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ProcessSettingActivity"
+            android:label="@string/title_activity_process_setting"
+            android:parentActivityName=".CS5231Settings" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="sg.edu.nus.soc.cs5231.CS5231Settings" />
+        </activity>
     </application>
 
 </manifest>

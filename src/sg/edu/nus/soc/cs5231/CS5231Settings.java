@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
@@ -56,8 +57,10 @@ public class CS5231Settings extends Activity {
 			public void onClick(View v) {
 				// TODO Individual App Settings
 				TextView tv = (TextView)v;
-				tv.setAllCaps(true);
-				tv.refreshDrawableState();
+				String process_name = tv.getText().toString();
+				Intent i= new Intent(CS5231Settings.this, ProcessSettingActivity.class);
+				i.putExtra("process_name", process_name);
+				CS5231Settings.this.startActivity(i);
 			}
 		});
 	    mainLinearLayout.addView(tv);
