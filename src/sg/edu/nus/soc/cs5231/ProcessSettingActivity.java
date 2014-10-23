@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class ProcessSettingActivity extends Activity {
 
@@ -12,9 +15,35 @@ public class ProcessSettingActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Intent intent = getIntent();
-		String process_name = intent.getStringExtra("process_name");
+		final String process_name = intent.getStringExtra("process_name");
+		ProcessSettingDBHelper dbHelper = new ProcessSettingDBHelper(this.getApplicationContext());
+		ProcessSetting psetting = dbHelper.getProcessSetting(process_name);
+		if(psetting == null)
+		{
+			psetting = dbHelper.createNewProcessSetting(process_name);
+		}
 		this.setTitle("Settings for " + process_name);
+		
 		setContentView(R.layout.activity_process_setting);
+		CheckBox repeatChkBx = ( CheckBox ) findViewById( R.id.enableLoggingChkBox );
+		repeatChkBx.setChecked(psetting.isEnableLogging());
+		repeatChkBx.setOnCheckedChangeListener(new OnCheckedChangeListener()
+		{
+		    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+		    {
+		    	ProcessSettingDBHelper dbHelper = new ProcessSettingDBHelper(ProcessSettingActivity.this.getApplicationContext());
+	    		ProcessSetting psetting_new = new ProcessSetting();
+	    		psetting_new.setProcessName(process_name);
+		        if ( isChecked )
+		        {
+		    		psetting_new.setEnableLogging(true);
+		        }else{
+		    		psetting_new.setEnableLogging(false);
+		        }
+		        dbHelper.updateProcessSetting(psetting_new);
+
+		    }
+		});
 	}
 
 	@Override
