@@ -1,11 +1,15 @@
 package sg.edu.nus.soc.cs5231;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class ProcessSettingDBHelper {
+	public static final String DB_PATH = "/data/data/sg.edu.nus.soc.cs5231/databases/cs5231.db";
+	public static ArrayList<ProcessSetting> psettings = null;
 	// Database fields
 	private SQLiteDatabase database;
 	private MySQLiteHelper dbHelper;
@@ -52,6 +56,23 @@ public class ProcessSettingDBHelper {
 		ProcessSetting psetting = cursorToProcessSetting(cursor);
 		cursor.close();
 		return psetting;
+	}
+	
+	public ArrayList<ProcessSetting> getAllProcessSetting() {
+		ArrayList<ProcessSetting> psettings = new ArrayList<ProcessSetting>();
+		database = SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READONLY);
+		Cursor cursor = database.query(MySQLiteHelper.TABLE_PROCESS_SETTINGS, allColumns, null, null, null, null, null);
+		if(cursor.getCount()<1){
+			cursor.close();
+			return psettings;
+		}
+		cursor.moveToFirst();
+		while(cursor.moveToNext())
+		{
+			psettings.add(cursorToProcessSetting(cursor));
+		}
+		cursor.close();
+		return psettings;
 	}
 
 	private ProcessSetting cursorToProcessSetting(Cursor cursor) {

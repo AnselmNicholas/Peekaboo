@@ -1,22 +1,17 @@
 package sg.edu.nus.soc.cs5231;
 
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
-import static de.robv.android.xposed.XposedHelpers.callMethod;
-import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
-import static de.robv.android.xposed.XposedHelpers.getStaticObjectField;
 
+import java.io.IOException;
 import java.net.URI;
-
-import android.app.AndroidAppHelper;
-import android.content.Context;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.util.Log;
+import java.util.ArrayList;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 
@@ -27,25 +22,52 @@ public class FileHooks implements IXposedHookLoadPackage {
 //									 };
 		static String [] blackList = { 	"jp.naver.line.android"	};
 		
+		
+		public void getSettingsFromDB(String process_name){
+			if(!process_name.equals("android")){return;}
+			ArrayList<ProcessSetting> ps = (ArrayList<ProcessSetting>)XposedHelpers.getStaticObjectField(ProcessSettingDBHelper.class, "psettings");
+			if(ps==null)
+			{
+				XposedHelpers.setStaticObjectField(ProcessSettingDBHelper.class, "psettings", new ArrayList<ProcessSetting>());
+			}else
+			{
+				return;
+			}
+			/* Read DB */
+			
+			try {
+				Runtime.getRuntime().exec(new String[]{"su","-c","chown root.root /data/data/sg.edu.nus.soc.cs5231/databases/cs5231.db"});
+			} catch (IOException e) {
+				XposedBridge.log("chown root.root /data/data/sg.edu.nus.soc.cs5231/databases/cs5231.db failed.");
+			}
+			try {
+				Runtime.getRuntime().exec(new String[]{"su","-c","chmod 777 /data/data/sg.edu.nus.soc.cs5231/databases/cs5231.db"});
+			} catch (IOException e) {
+				XposedBridge.log("chmod 777 /data/data/sg.edu.nus.soc.cs5231/databases/cs5231.db failed.");
+			}
+			try {
+				Runtime.getRuntime().exec(new String[]{"su","-c","chown root.root /data/data/sg.edu.nus.soc.cs5231/databases/cs5231.db-journal"});
+			} catch (IOException e) {
+				XposedBridge.log("chown root.root /data/data/sg.edu.nus.soc.cs5231/databases/cs5231.db-journal failed.");
+			}
+			try {
+				Runtime.getRuntime().exec(new String[]{"su","-c","chmod 777 /data/data/sg.edu.nus.soc.cs5231/databases/cs5231.db-journal"});
+			} catch (IOException e) {
+				XposedBridge.log("chmod 777 /data/data/sg.edu.nus.soc.cs5231/databases/cs5231.db-journal failed.");
+			}
+			ProcessSettingDBHelper db = new ProcessSettingDBHelper(null);
+			XposedHelpers.setStaticObjectField(ProcessSettingDBHelper.class, "psettings", db.getAllProcessSetting());;
+			XposedBridge.log("JASON: DB LOADED WITH " + ((ArrayList<ProcessSetting>)XposedHelpers.getStaticObjectField(ProcessSettingDBHelper.class, "psettings")).size() + " PROCESS SETTINGS.");
+			/* End Read DB */
+		}
+		
 		public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
 //				XposedBridge.log(lpparam.packageName + " is loaded...");
+				//getSettingsFromDB(lpparam.processName);
 				if( !IsInBlackList(lpparam.processName) )
 				{
 					return;
 				}
-				Context context = getContext();
-				if(context == null)
-				{
-					XposedBridge.log("CONTEXT NULL");
-				}
-				try {
-					context.createPackageContext(CS5231Settings.class.getPackage().getName(), Context.CONTEXT_IGNORE_SECURITY);
-				} catch (NameNotFoundException e) {
-					XposedBridge.log("NAME NOT FOUND");
-				}
-				ProcessSettingDBHelper db = new ProcessSettingDBHelper(context);
-				XposedBridge.log("Got db");
-				
 				hookListFiles(lpparam);
 				hookRenameFile(lpparam);
 				hookDeleteFile(lpparam);
@@ -248,45 +270,20 @@ public class FileHooks implements IXposedHookLoadPackage {
 			});
 		}
 		
-		private static boolean IsInBlackList(String target)
+		private boolean IsInBlackList(String target)
 		{
-			for(String str : blackList)
+//			ArrayList<ProcessSetting> psettings = (ArrayList<ProcessSetting>)XposedHelpers.getStaticObjectField(ProcessSettingDBHelper.class, "psettings");
+//			if(psettings == null)
+//			{
+//				getSettingsFromDB("android");
+//			}
+			for(String s : blackList)
 			{
-				if(target.equals(str))
+				if(s.equals(target))
 				{
 					return true;
 				}
 			}
 			return false;
 		}
-		
-		 private Context getContext(){
-	         // Try to get a context in one way or another from system
-	         Context context;
-
-	         // Seems to work for 4.4
-	         Log.i("getContext", "Trying to get context from AndroidAppHelper");
-	         context = AndroidAppHelper.currentApplication();
-
-	         // Seems to work for 4.2
-	         if (context == null) {
-	             Log.i("getContext", "Trying to get context from mSystemContext");
-	             Object systemContext = getStaticObjectField(findClass("android.app.ActivityThread", null), "mSystemContext");
-	             if (systemContext != null) {
-	                 context = (Context) systemContext;
-	             }
-	         }
-
-	         // Seems to work for 4.1 and 4.0
-	         if (context == null) {
-	             Log.i("getContext", "Trying to get activityThread from systemMain");
-	             Object activityThread = callStaticMethod(findClass("android.app.ActivityThread", null), "systemMain");
-	             if (activityThread != null){
-	                 Log.i("getContext", "Trying to get context from getSystemContext");
-	                 context = (Context) callMethod(activityThread, "getSystemContext");
-	             }
-	         }
-
-	         return context;
-	     }
 }
