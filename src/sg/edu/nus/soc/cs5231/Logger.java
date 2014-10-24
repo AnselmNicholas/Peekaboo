@@ -7,7 +7,7 @@ public class Logger {
 		if(!isLoggingEnabled(process_name)){
 			return;
 		}
-		String formatted_string = String.format("[%d] %s - %s - %s : %s", System.currentTimeMillis(), process_name, class_name, method_name, message);
+		String formatted_string = String.format("[%s] %s - %s - %s : %s", SharedUtilities.getTimeNow(), process_name, class_name, method_name, message);
 		XposedBridge.log(formatted_string);
 	}
 	private static boolean isLoggingEnabled(String process_name){
