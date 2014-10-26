@@ -3,3 +3,5 @@ sg.edu.nus.soc.cs5231.CameraHooks
 sg.edu.nus.soc.cs5231.NetworkHooks
 sg.edu.nus.soc.cs5231.MediaRecorderHooks
 sg.edu.nus.soc.cs5231.ContactHooks
+sg.edu.nus.soc.cs5231.GPSHooks
+sg.edu.nus.soc.cs5231.AccountHooks
