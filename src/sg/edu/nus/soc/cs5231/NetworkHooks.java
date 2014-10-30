@@ -3,15 +3,9 @@ package sg.edu.nus.soc.cs5231;
 import static de.robv.android.xposed.XposedHelpers.*;
 
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketAddress;
-import java.util.Arrays;
-
-import android.net.Proxy;
-
 import de.robv.android.xposed.*;
-import static de.robv.android.xposed.XposedBridge.*;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class NetworkHooks implements IXposedHookLoadPackage {
@@ -30,28 +24,44 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 		// return;
 		//
 
-		// hookServerSocket(lpparam);
+		hookServerSocket(lpparam);
 		hookSocket(lpparam);
-		// hookDatagramSocket(lpparam);
+		hookDatagramSocket(lpparam);
 
 	}
 
 	public void hookServerSocket(final LoadPackageParam lpparam) {
 		final String classname = "java.net.ServerSocket";
-		final Class<?> classFinder = findClass(classname, lpparam.classLoader);
-		hookAllConstructors(classFinder, new XC_MethodHook() {
+		// final Class<?> classFinder = findClass(classname, lpparam.classLoader);
+		// hookAllConstructors(classFinder, new XC_MethodHook() {
+		// @Override
+		// protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+		// int port = -1;
+		// if (param.args.length > 0) {
+		// Object arg1 = param.args[0];
+		//
+		// if (arg1 instanceof Integer) {
+		// port = (Integer) port;
+		// }
+		// }
+		//
+		// Logger.Log(lpparam.processName, classname, "constructor", "created a server socket on port " + port + ".");
+		// }
+		// });
+
+		findAndHookConstructor(classname, lpparam.classLoader, Integer.TYPE, Integer.TYPE, InetAddress.class, new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				int port = -1;
-				if (param.args.length > 0) {
-					Object arg1 = param.args[0];
 
-					if (arg1 instanceof Integer) {
-						port = (Integer) port;
-					}
-				}
+				Logger.Log(lpparam.processName, classname, "constructor", "port:" + param.args[0] + " backlog:" + param.args[1] + " localAddress:" + param.args[2]);
+			}
+		});
 
-				Logger.Log(lpparam.processName, classname, "constructor", "created a server socket on port " + port + ".");
+		findAndHookMethod(classname, lpparam.classLoader, "bind", SocketAddress.class, Integer.TYPE, new XC_MethodHook() {
+			@Override
+			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+
+				Logger.Log(lpparam.processName, classname, "bind", "socketAddress:" + param.args[0] + " backlog:" + param.args[1]);
 			}
 		});
 
@@ -59,7 +69,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				java.net.ServerSocket thisObj = ((java.net.ServerSocket) param.thisObject);
-				Logger.Log(lpparam.processName, classname, "accept", "listening on " + thisObj.getLocalSocketAddress() + " " + thisObj.getLocalPort() + ".");
+				Logger.Log(lpparam.processName, classname, "accept", "socketAddress:" + thisObj.getLocalSocketAddress());
 			}
 		});
 
@@ -67,7 +77,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				java.net.ServerSocket thisObj = ((java.net.ServerSocket) param.thisObject);
-				Logger.Log(lpparam.processName, classname, "close", "stopped listening on " + thisObj.getLocalSocketAddress() + " " + thisObj.getLocalPort() + ".");
+				Logger.Log(lpparam.processName, classname, "close", "socketAddress:" + thisObj.getLocalSocketAddress());
 			}
 		});
 	}

@@ -25,7 +25,7 @@
         <meta-data
             android:name="xposedminversion"
             android:value="54" />
-
+<!-- 
         <activity
             android:name=".CS5231Settings"
             android:label="@string/title_activity_cs5231_settings" >
@@ -43,6 +43,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="sg.edu.nus.soc.cs5231.CS5231Settings" />
         </activity>
+ -->
     </application>
 
 </manifest>
