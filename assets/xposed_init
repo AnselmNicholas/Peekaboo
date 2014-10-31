@@ -6,3 +6,5 @@ sg.edu.nus.soc.cs5231.ContactHooks
 sg.edu.nus.soc.cs5231.GPSHooks
 sg.edu.nus.soc.cs5231.AccountHooks
 sg.edu.nus.soc.cs5231.CalendarHooks
+sg.edu.nus.soc.cs5231.ConnectivityManagerHooks
+sg.edu.nus.soc.cs5231.SMSHooks
