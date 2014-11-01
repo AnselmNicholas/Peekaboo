@@ -26,12 +26,6 @@ public class ContactHooks implements IXposedHookLoadPackage {
 		hookAllConstructors(classFinder, new XC_MethodHook() { 
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				/*XposedBridge.log("["+SharedUtilities.getTimeNow()+"]"+
-						"["+lpparam.processName+"]"+
-						"["+targetClass+"]"+
-						"["+methodConstructor+"] "+
-						"ContactsContract object initialized. "+
-						"appInfo = "+lpparam.appInfo);*/
 				XposedBridge.log(SharedUtilities.generatePreamble(
 						lpparam.processName, targetClass, methodConstructor) + 
 						"ContactsContract object initialized. "+
@@ -53,13 +47,6 @@ public class ContactHooks implements IXposedHookLoadPackage {
 		hookAllConstructors(classFinder, new XC_MethodHook() { 
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				/*XposedBridge.log("["+SharedUtilities.getTimeNow()+"]"+
-						"["+lpparam.processName+"]"+
-						"["+targetClass+"]"+
-						"["+methodConstructor+"] "+
-						"ContactsContract.Contacts object initialized. "+
-						"appInfo = "+lpparam.appInfo+" "+
-						"Contacts.DISPLAY_NAME_PRIMARY = "+Contacts.DISPLAY_NAME_PRIMARY);*/
 				XposedBridge.log(SharedUtilities.generatePreamble(
 						lpparam.processName, targetClass, methodConstructor) + 
 						"ContactsContract.Contacts object initialized. "+
@@ -74,14 +61,11 @@ public class ContactHooks implements IXposedHookLoadPackage {
 				new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				/*XposedBridge.log("["+SharedUtilities.getTimeNow()+"]"+
-						"["+lpparam.processName+"]"+
-						"["+targetClass+"]"+
-						"["+methodGetLookupUri+"] "+
-						"getLookUpUri(CR, URI) invoked.");*/
+				StringBuilder sb = new StringBuilder();
+				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
+				
 				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetLookupUri) + 
-						"getLookUpUri(CR, URI) invoked.");
+						lpparam.processName, targetClass, methodGetLookupUri) + sb.toString());
 			}
 		});
 		
@@ -91,14 +75,11 @@ public class ContactHooks implements IXposedHookLoadPackage {
 				new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				/*XposedBridge.log("["+SharedUtilities.getTimeNow()+"]"+
-						"["+lpparam.processName+"]"+
-						"["+targetClass+"]"+
-						"["+methodGetLookupUri+"] "+
-						"getLookUpUri(long, String) invoked.");*/
+				StringBuilder sb = new StringBuilder();
+				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
+				
 				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetLookupUri) + 
-						"getLookUpUri(long, String) invoked.");
+						lpparam.processName, targetClass, methodGetLookupUri) + sb.toString());
 			}
 		});
 		
@@ -108,14 +89,11 @@ public class ContactHooks implements IXposedHookLoadPackage {
 				new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				/*XposedBridge.log("["+SharedUtilities.getTimeNow()+"]"+
-						"["+lpparam.processName+"]"+
-						"["+targetClass+"]"+
-						"["+methodLookupContact+"] "+
-						"lookupContact(CR, URI) invoked.");*/
+				StringBuilder sb = new StringBuilder();
+				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
+				
 				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodLookupContact) + 
-						"lookupContact(CR, URI) invoked.");
+						lpparam.processName, targetClass, methodLookupContact) + sb.toString());
 			}
 		});
 		
@@ -125,14 +103,11 @@ public class ContactHooks implements IXposedHookLoadPackage {
 				new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				/*XposedBridge.log("["+SharedUtilities.getTimeNow()+"]"+
-						"["+lpparam.processName+"]"+
-						"["+targetClass+"]"+
-						"["+methodOpenContactPhotoInputStream+"] "+
-						"openContactPhotoInputStream(CR, URI, boolean) invoked.");*/
+				StringBuilder sb = new StringBuilder();
+				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
+				
 				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodOpenContactPhotoInputStream) + 
-						"openContactPhotoInputStream(CR, URI, boolean) invoked.");
+						lpparam.processName, targetClass, methodOpenContactPhotoInputStream) + sb.toString());
 			}
 		});
 		
@@ -142,14 +117,11 @@ public class ContactHooks implements IXposedHookLoadPackage {
 				new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				/*XposedBridge.log("["+SharedUtilities.getTimeNow()+"]"+
-						"["+lpparam.processName+"]"+
-						"["+targetClass+"]"+
-						"["+methodOpenContactPhotoInputStream+"] "+
-						"openContactPhotoInputStream(CR, URI) invoked (for thumbnails).");*/
+				StringBuilder sb = new StringBuilder();
+				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
+				
 				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodOpenContactPhotoInputStream) + 
-						"openContactPhotoInputStream(CR, URI) invoked (for thumbnails).");
+						lpparam.processName, targetClass, methodOpenContactPhotoInputStream) + sb.toString());
 			}
 		});
 	}
