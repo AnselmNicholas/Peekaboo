@@ -84,42 +84,42 @@ public class FileHooks implements IXposedHookLoadPackage {
 			findAndHookMethod("android.os.Environment", lpparam.classLoader, "getDataDirectory", new XC_MethodHook() {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					Logger.Log(lpparam.processName, "android.os.Environment", "getDataDirectory()", "trying to get the user's data directory");
+					Logger.Log(lpparam, "android.os.Environment", "getDataDirectory()", "trying to get the user's data directory");
 				}
 			});
 			//Download/Cache Directory
 			findAndHookMethod("android.os.Environment", lpparam.classLoader, "getDownloadCacheDirectory", new XC_MethodHook() {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					Logger.Log(lpparam.processName, "android.os.Environment", "getDownloadCacheDirectory()", "trying to get the download/cache content directory");
+					Logger.Log(lpparam, "android.os.Environment", "getDownloadCacheDirectory()", "trying to get the download/cache content directory");
 				}
 			});
 			//External Storage Directory
 			findAndHookMethod("android.os.Environment", lpparam.classLoader, "getExternalStorageDirectory", new XC_MethodHook() {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					Logger.Log(lpparam.processName, "android.os.Environment", "getExternalStorageDirectory()", "trying to get primary external storage directory");
+					Logger.Log(lpparam, "android.os.Environment", "getExternalStorageDirectory()", "trying to get primary external storage directory");
 				}
 			});
 			//External Storage Directory w/ Type
 			findAndHookMethod("android.os.Environment", lpparam.classLoader, "getExternalStoragePublicDirectory", String.class, new XC_MethodHook() {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					Logger.Log(lpparam.processName, "android.os.Environment", "getExternalStoragePublicDirectory()", " trying to get primary external storage directory that stores "+param.args[0]);
+					Logger.Log(lpparam, "android.os.Environment", "getExternalStoragePublicDirectory()", " trying to get primary external storage directory that stores "+param.args[0]);
 				}
 			});
 			//External Storage State
 			findAndHookMethod("android.os.Environment", lpparam.classLoader, "getExternalStorageState", new XC_MethodHook() {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					Logger.Log(lpparam.processName, "android.os.Environment", "getExternalStorageState()", "trying to get primary external storage directory's state");
+					Logger.Log(lpparam, "android.os.Environment", "getExternalStorageState()", "trying to get primary external storage directory's state");
 				}
 			});
 			//Root Directory
 			findAndHookMethod("android.os.Environment", lpparam.classLoader, "getRootDirectory", new XC_MethodHook() {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					Logger.Log(lpparam.processName, "android.os.Environment", "getRootDirectory()", "trying to get the root directory");
+					Logger.Log(lpparam, "android.os.Environment", "getRootDirectory()", "trying to get the root directory");
 				}
 			});
 			
@@ -159,7 +159,7 @@ public class FileHooks implements IXposedHookLoadPackage {
 						}
 						
 					}
-					Logger.Log(lpparam.processName, "java.io.File", "File()", "trying to open file " + fileName);
+					Logger.Log(lpparam, "java.io.File", "File()", "trying to open file " + fileName);
 				}
 			});
 		}
@@ -186,7 +186,7 @@ public class FileHooks implements IXposedHookLoadPackage {
 					{
 						fileName = (String)arg1;
 					}
-					Logger.Log(lpparam.processName, "java.io.FileInputStream", "FileInputStream()", "trying to read file " + fileName);
+					Logger.Log(lpparam, "java.io.FileInputStream", "FileInputStream()", "trying to read file " + fileName);
 				}
 			});
 		}
@@ -213,7 +213,7 @@ public class FileHooks implements IXposedHookLoadPackage {
 					{
 						fileName = (String)arg1;
 					}
-					Logger.Log(lpparam.processName, "java.io.FileOutputStream", "FileOutputStream()", "trying to write file " + fileName);
+					Logger.Log(lpparam, "java.io.FileOutputStream", "FileOutputStream()", "trying to write file " + fileName);
 				}
 			});
 		}
@@ -224,7 +224,7 @@ public class FileHooks implements IXposedHookLoadPackage {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					String fileName = ((java.io.File)param.thisObject).getAbsolutePath();
-					Logger.Log(lpparam.processName, "java.io.File", "createNewFile()", "creating new file " + fileName);
+					Logger.Log(lpparam, "java.io.File", "createNewFile()", "creating new file " + fileName);
 				}
 			});
 		}
@@ -235,14 +235,14 @@ public class FileHooks implements IXposedHookLoadPackage {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					String fileName = ((java.io.File)param.thisObject).getAbsolutePath();
-					Logger.Log(lpparam.processName, "java.io.File", "delete()", "deleting " + fileName);
+					Logger.Log(lpparam, "java.io.File", "delete()", "deleting " + fileName);
 				}
 			});
 			findAndHookMethod("java.io.File", lpparam.classLoader, "deleteOnExit", new XC_MethodHook() {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					String fileName = ((java.io.File)param.thisObject).getAbsolutePath();
-					Logger.Log(lpparam.processName, "java.io.File", "deleteOnExit()", "deleting " + fileName);
+					Logger.Log(lpparam, "java.io.File", "deleteOnExit()", "deleting " + fileName);
 				}
 			});
 		}
@@ -253,7 +253,7 @@ public class FileHooks implements IXposedHookLoadPackage {
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					String originalName = ((java.io.File)param.thisObject).getAbsolutePath();
 					String newName = ((java.io.File)param.args[0]).getAbsolutePath();
-					Logger.Log(lpparam.processName, "java.io.File", "renameTo()",  " renaming " + originalName + " to " + newName);
+					Logger.Log(lpparam, "java.io.File", "renameTo()",  " renaming " + originalName + " to " + newName);
 				}
 			});
 			
@@ -265,7 +265,7 @@ public class FileHooks implements IXposedHookLoadPackage {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					String directory = ((java.io.File)param.thisObject).getAbsolutePath();
-					Logger.Log(lpparam.processName, "java.io.File", "listFiles()",  "listing files in "+directory);
+					Logger.Log(lpparam, "java.io.File", "listFiles()",  "listing files in "+directory);
 				}
 			});
 		}

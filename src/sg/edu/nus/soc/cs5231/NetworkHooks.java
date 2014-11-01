@@ -45,7 +45,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 		// }
 		// }
 		//
-		// Logger.Log(lpparam.processName, classname, "constructor", "created a server socket on port " + port + ".");
+		// Logger.Log(lpparam, classname, "constructor", "created a server socket on port " + port + ".");
 		// }
 		// });
 
@@ -53,7 +53,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 
-				Logger.Log(lpparam.processName, classname, "constructor", "port:" + param.args[0] + " backlog:" + param.args[1] + " localAddress:" + param.args[2]);
+				Logger.Log(lpparam, classname, "constructor", "port:" + param.args[0] + " backlog:" + param.args[1] + " localAddress:" + param.args[2]);
 			}
 		});
 
@@ -61,7 +61,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 
-				Logger.Log(lpparam.processName, classname, "bind", "socketAddress:" + param.args[0] + " backlog:" + param.args[1]);
+				Logger.Log(lpparam, classname, "bind", "socketAddress:" + param.args[0] + " backlog:" + param.args[1]);
 			}
 		});
 
@@ -69,7 +69,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				java.net.ServerSocket thisObj = ((java.net.ServerSocket) param.thisObject);
-				Logger.Log(lpparam.processName, classname, "accept", "socketAddress:" + thisObj.getLocalSocketAddress());
+				Logger.Log(lpparam, classname, "accept", "socketAddress:" + thisObj.getLocalSocketAddress());
 			}
 		});
 
@@ -77,7 +77,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				java.net.ServerSocket thisObj = ((java.net.ServerSocket) param.thisObject);
-				Logger.Log(lpparam.processName, classname, "close", "socketAddress:" + thisObj.getLocalSocketAddress());
+				Logger.Log(lpparam, classname, "close", "socketAddress:" + thisObj.getLocalSocketAddress());
 			}
 		});
 	}
@@ -98,7 +98,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 		// // }
 		// // }
 		//
-		// Logger.Log(lpparam.processName, classname, "constructor", "created a socket");
+		// Logger.Log(lpparam, classname, "constructor", "created a socket");
 		// }
 		// });
 
@@ -108,7 +108,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 		// protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 		// java.net.Socket thisObj = ((java.net.Socket) param.thisObject);
 		// SocketAddress sa = (SocketAddress) param.args[0];
-		// Logger.Log(lpparam.processName, classname, "connect", "open socket to " + sa);
+		// Logger.Log(lpparam, classname, "connect", "open socket to " + sa);
 		// }
 		// });
 
@@ -116,7 +116,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 		// @Override
 		// protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 		//
-		// Logger.Log(lpparam.processName, classname, "constructor", "");
+		// Logger.Log(lpparam, classname, "constructor", "");
 		// }
 		// });
 		//
@@ -124,7 +124,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 		// @Override
 		// protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 		//
-		// Logger.Log(lpparam.processName, classname, "constructor", "Proxy:" + param.args[0]);
+		// Logger.Log(lpparam, classname, "constructor", "Proxy:" + param.args[0]);
 		// }
 		// });
 		//
@@ -132,7 +132,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 		// @Override
 		// protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 		//
-		// Logger.Log(lpparam.processName, classname, "constructor", "destHost:" + param.args[0] + " destPort:" + param.args[1] + " localAddress:" + param.args[2] + " localPort:" + param.args[3]);
+		// Logger.Log(lpparam, classname, "constructor", "destHost:" + param.args[0] + " destPort:" + param.args[1] + " localAddress:" + param.args[2] + " localPort:" + param.args[3]);
 		// }
 		// });
 
@@ -143,7 +143,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 				// java.net.Socket thisObj = ((java.net.Socket)
 				// param.thisObject);
 
-				Logger.Log(lpparam.processName, classname, "startupSocket", "rAddr:" + param.args[0] + " rPort:" + param.args[1] + "lAddr:" + param.args[2] + " lPort:" + param.args[3] + " streaming:" + param.args[4]);
+				Logger.Log(lpparam, classname, "startupSocket", "rAddr:" + param.args[0] + " rPort:" + param.args[1] + "lAddr:" + param.args[2] + " lPort:" + param.args[3] + " streaming:" + param.args[4]);
 			}
 		});
 
@@ -152,7 +152,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 				// java.net.Socket thisObj = ((java.net.Socket) param.thisObject);
 
-				Logger.Log(lpparam.processName, classname, "connect", "addr:" + param.args[0] + " timeout:" + param.args[1]);
+				Logger.Log(lpparam, classname, "connect", "addr:" + param.args[0] + " timeout:" + param.args[1]);
 			}
 		});
 
@@ -161,7 +161,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				java.net.Socket thisObj = ((java.net.Socket) param.thisObject);
 
-				Logger.Log(lpparam.processName, classname, "close", "addr:" + thisObj.getRemoteSocketAddress());
+				Logger.Log(lpparam, classname, "close", "addr:" + thisObj.getRemoteSocketAddress());
 			}
 		});
 
@@ -170,7 +170,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				java.net.Socket thisObj = ((java.net.Socket) param.thisObject);
 
-				Logger.Log(lpparam.processName, classname, "getInputStream", "addr:" + thisObj.getRemoteSocketAddress());
+				Logger.Log(lpparam, classname, "getInputStream", "addr:" + thisObj.getRemoteSocketAddress());
 			}
 		});
 
@@ -179,7 +179,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				java.net.Socket thisObj = ((java.net.Socket) param.thisObject);
 
-				Logger.Log(lpparam.processName, classname, "getOutputStream", "addr:" + thisObj.getRemoteSocketAddress());
+				Logger.Log(lpparam, classname, "getOutputStream", "addr:" + thisObj.getRemoteSocketAddress());
 			}
 		});
 
@@ -211,7 +211,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 		//
 		// }
 		//
-		// Logger.Log(lpparam.processName, classname, "constructor", "created a socket." + Arrays.toString(param.args));
+		// Logger.Log(lpparam, classname, "constructor", "created a socket." + Arrays.toString(param.args));
 		// }
 		// });
 
@@ -219,7 +219,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 		// @Override
 		// protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 		//
-		// Logger.Log(lpparam.processName, classname, "constructor", "0");
+		// Logger.Log(lpparam, classname, "constructor", "0");
 		// }
 		// });
 
@@ -227,7 +227,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 		// @Override
 		// protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 		//
-		// Logger.Log(lpparam.processName, classname, "constructor", "port:" + param.args[0]);
+		// Logger.Log(lpparam, classname, "constructor", "port:" + param.args[0]);
 		// }
 		// });
 		//
@@ -235,7 +235,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 		// @Override
 		// protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 		//
-		// Logger.Log(lpparam.processName, classname, "constructor", "port:" + param.args[0] + " address:" + param.args[1]);
+		// Logger.Log(lpparam, classname, "constructor", "port:" + param.args[0] + " address:" + param.args[1]);
 		// }
 		// });
 		//
@@ -243,7 +243,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 		// @Override
 		// protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 		//
-		// Logger.Log(lpparam.processName, classname, "constructor", "socketAddress:" + param.args[0]);
+		// Logger.Log(lpparam, classname, "constructor", "socketAddress:" + param.args[0]);
 		// }
 		// });
 
@@ -253,7 +253,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 				// java.net.Socket thisObj = ((java.net.Socket)
 				// param.thisObject);
 
-				Logger.Log(lpparam.processName, classname, "createSocket", "port:" + param.args[0] + " address:" + param.args[1]);
+				Logger.Log(lpparam, classname, "createSocket", "port:" + param.args[0] + " address:" + param.args[1]);
 			}
 		});
 
@@ -262,7 +262,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				// java.net.Socket thisObj = ((java.net.Socket) param.thisObject);
 
-				Logger.Log(lpparam.processName, classname, "connect", param.args[0].toString());
+				Logger.Log(lpparam, classname, "connect", param.args[0].toString());
 			}
 		});
 
@@ -271,7 +271,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				java.net.DatagramSocket thisObj = ((java.net.DatagramSocket) param.thisObject);
 
-				Logger.Log(lpparam.processName, classname, "disconnect", thisObj.getInetAddress().toString());
+				Logger.Log(lpparam, classname, "disconnect", thisObj.getInetAddress().toString());
 			}
 		});
 
@@ -280,23 +280,23 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 			// protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 			// // java.net.DatagramSocket thisObj = ((java.net.DatagramSocket) param.thisObject);
 			//
-			// Logger.Log(lpparam.processName, classname, "receive", "receiving " + "port:"+((DatagramPacket) param.args[0]).getPort()+" Address:" + ((DatagramPacket) param.args[0]).getAddress());
+			// Logger.Log(lpparam, classname, "receive", "receiving " + "port:"+((DatagramPacket) param.args[0]).getPort()+" Address:" + ((DatagramPacket) param.args[0]).getAddress());
 			// }
 
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 				// java.net.DatagramSocket thisObj = ((java.net.DatagramSocket) param.thisObject);
 
-				Logger.Log(lpparam.processName, classname, "receive", "port:" + ((DatagramPacket) param.args[0]).getPort() + " Address:" + ((DatagramPacket) param.args[0]).getAddress());
+				Logger.Log(lpparam, classname, "receive", "port:" + ((DatagramPacket) param.args[0]).getPort() + " Address:" + ((DatagramPacket) param.args[0]).getAddress());
 			}
 		});
 
 		findAndHookMethod(classname, lpparam.classLoader, "send", DatagramPacket.class, new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				java.net.DatagramSocket thisObj = ((java.net.DatagramSocket) param.thisObject);
+				// java.net.DatagramSocket thisObj = ((java.net.DatagramSocket) param.thisObject);
 
-				Logger.Log(lpparam.processName, classname, "send", "port:" + ((DatagramPacket) param.args[0]).getPort() + " Address:" + ((DatagramPacket) param.args[0]).getAddress());
+				Logger.Log(lpparam, classname, "send", "port:" + ((DatagramPacket) param.args[0]).getPort() + " Address:" + ((DatagramPacket) param.args[0]).getAddress());
 			}
 		});
 
@@ -305,14 +305,14 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				// java.net.Socket thisObj = ((java.net.Socket) param.thisObject);
 
-				Logger.Log(lpparam.processName, classname, "bind", "binding " + param.args[0].toString());
+				Logger.Log(lpparam, classname, "bind", "binding " + param.args[0].toString());
 			}
 
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 				java.net.DatagramSocket thisObj = ((java.net.DatagramSocket) param.thisObject);
 
-				Logger.Log(lpparam.processName, classname, "bind", "bound " + thisObj.getLocalSocketAddress().toString());
+				Logger.Log(lpparam, classname, "bind", "bound " + thisObj.getLocalSocketAddress().toString());
 			}
 		});
 
@@ -324,7 +324,7 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 		// Throwable {
 		// java.net.Socket thisObj = ((java.net.Socket) param.thisObject);
 		//
-		// Logger.Log(lpparam.processName, classname, "getOutputStream",
+		// Logger.Log(lpparam, classname, "getOutputStream",
 		// "received an outputstream from " + thisObj.getRemoteSocketAddress());
 		// }
 		// });

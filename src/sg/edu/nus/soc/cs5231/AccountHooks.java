@@ -22,7 +22,7 @@ public class AccountHooks implements IXposedHookLoadPackage {
 			findAndHookMethod(classFinder,"getAccounts", new XC_MethodHook() { 
 				@Override
 				protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-					Logger.Log(lpparam.processName, "AccountManager", "getAccounts()", "trying to get account info. "+ Arrays.toString((Object[])param.getResult()));
+					Logger.Log(lpparam, "AccountManager", "getAccounts()", "trying to get account info. "+ Arrays.toString((Object[])param.getResult()));
 				}
 			});
 		}

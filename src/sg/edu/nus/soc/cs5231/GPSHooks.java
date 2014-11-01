@@ -20,7 +20,7 @@ public class GPSHooks implements IXposedHookLoadPackage {
 			hookAllMethods(classFinder,"getLastLocation", new XC_MethodHook() { 
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					Logger.Log(lpparam.processName, "LocationManager", "getLastKnownLocation()", " ");
+					Logger.Log(lpparam, "LocationManager", "getLastKnownLocation()", " ");
 				}
 			});
 			
@@ -29,7 +29,7 @@ public class GPSHooks implements IXposedHookLoadPackage {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					
-					Logger.Log(lpparam.processName, "LocationManager", "requestLocationUpdates()", " ");
+					Logger.Log(lpparam, "LocationManager", "requestLocationUpdates()", " ");
 				}
 			});
 			

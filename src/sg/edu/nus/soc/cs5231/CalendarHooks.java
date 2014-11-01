@@ -24,7 +24,7 @@ public class CalendarHooks implements IXposedHookLoadPackage {
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 					Object uri = param.args[0];
 					if(uri.equals(Calendars.CONTENT_URI))
-						Logger.Log(lpparam.processName, "ContentResolver", "query()", " "+uri);
+						Logger.Log(lpparam, "ContentResolver", "query()", " "+uri);
 				}
 			});
 		}
