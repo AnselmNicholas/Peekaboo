@@ -15,6 +15,10 @@ public class LowLevelHooks implements IXposedHookLoadPackage {
 		{
 			return;
 		}
+//		if(lpparam.packageName.equals("android") || lpparam.packageName.contains(".android.") || lpparam.packageName.contains(".google.") || lpparam.packageName.equals("com.qualcomm.location"))
+//		{
+//			return;
+//		}
 		hookLoadSharedLibrary(lpparam);
 		hookExec(lpparam);
 	}
@@ -24,13 +28,13 @@ public class LowLevelHooks implements IXposedHookLoadPackage {
 		findAndHookMethod("java.lang.System", lpparam.classLoader, "loadLibrary", String.class, new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				Logger.Log(lpparam.processName, "java.lang.System", "loadLibrary()", "trying to load shared library \"" + param.args[0] + "\"");
+				Logger.Log(lpparam.packageName+"["+lpparam.processName+"]", "java.lang.System", "loadLibrary()", "trying to load shared library \"" + param.args[0] + "\"");
 			}
 		});
 		findAndHookMethod("java.lang.System", lpparam.classLoader, "load", String.class, new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				Logger.Log(lpparam.processName, "java.lang.System", "loadLibrary()", "trying to load shared library \"" + param.args[0] + "\"");
+				Logger.Log(lpparam.packageName+"["+lpparam.processName+"]", "java.lang.System", "loadLibrary()", "trying to load shared library \"" + param.args[0] + "\"");
 			}
 		});
 	}
@@ -40,7 +44,7 @@ public class LowLevelHooks implements IXposedHookLoadPackage {
 		findAndHookMethod("java.lang.Runtime", lpparam.classLoader, "exec", String.class, new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				Logger.Log(lpparam.processName, "java.lang.Runtime", "exec()", "trying to exec command \"" + param.args[0] + "\"");
+				Logger.Log(lpparam.packageName+"["+lpparam.processName+"]", "java.lang.Runtime", "exec()", "trying to exec command \"" + param.args[0] + "\"");
 			}
 		});
 		findAndHookMethod("java.lang.Runtime", lpparam.classLoader, "exec", String[].class, new XC_MethodHook() {
@@ -52,19 +56,19 @@ public class LowLevelHooks implements IXposedHookLoadPackage {
 				{
 					cmd = cmd + " " + s;
 				}
-				Logger.Log(lpparam.processName, "java.lang.Runtime", "exec()", "trying to exec command \"" + cmd + "\"");
+				Logger.Log(lpparam.packageName+"["+lpparam.processName+"]", "java.lang.Runtime", "exec()", "trying to exec command \"" + cmd + "\"");
 			}
 		});
 		findAndHookMethod("java.lang.Runtime", lpparam.classLoader, "exec", String.class, String[].class, new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				Logger.Log(lpparam.processName, "java.lang.Runtime", "exec()", "trying to exec command \"" + param.args[0] + "\"");
+				Logger.Log(lpparam.packageName+"["+lpparam.processName+"]", "java.lang.Runtime", "exec()", "trying to exec command \"" + param.args[0] + "\"");
 			}
 		});
 		findAndHookMethod("java.lang.Runtime", lpparam.classLoader, "exec", String.class, String[].class, File.class, new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				Logger.Log(lpparam.processName, "java.lang.Runtime", "exec()", "trying to exec command \"" + param.args[0] + "\"");
+				Logger.Log(lpparam.packageName+"["+lpparam.processName+"]", "java.lang.Runtime", "exec()", "trying to exec command \"" + param.args[0] + "\"");
 			}
 		});
 		findAndHookMethod("java.lang.Runtime", lpparam.classLoader, "exec", String[].class, String[].class, File.class, new XC_MethodHook() {
@@ -76,7 +80,7 @@ public class LowLevelHooks implements IXposedHookLoadPackage {
 				{
 					cmd = cmd + " " + s;
 				}
-				Logger.Log(lpparam.processName, "java.lang.Runtime", "exec()", "trying to exec command \"" + cmd + "\"");
+				Logger.Log(lpparam.packageName+"["+lpparam.processName+"]", "java.lang.Runtime", "exec()", "trying to exec command \"" + cmd + "\"");
 			}
 		});
 		findAndHookMethod("java.lang.Runtime", lpparam.classLoader, "exec", String[].class, String[].class, new XC_MethodHook() {
@@ -88,7 +92,7 @@ public class LowLevelHooks implements IXposedHookLoadPackage {
 				{
 					cmd = cmd + " " + s;
 				}
-				Logger.Log(lpparam.processName, "java.lang.Runtime", "exec()", "trying to exec command \"" + cmd + "\"");
+				Logger.Log(lpparam.packageName+"["+lpparam.processName+"]", "java.lang.Runtime", "exec()", "trying to exec command \"" + cmd + "\"");
 			}
 		});
 	}
