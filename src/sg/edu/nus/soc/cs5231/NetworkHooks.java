@@ -165,6 +165,13 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 			}
 		});
 
+		findAndHookMethod(classname, lpparam.classLoader, "isConnected", new XC_MethodHook() {
+			@Override
+			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+				Logger.Log(lpparam, classname, "isConnected", "" + param.getResult());
+			}
+		});
+
 		findAndHookMethod(classname, lpparam.classLoader, "getInputStream", new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
