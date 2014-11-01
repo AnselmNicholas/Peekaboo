@@ -19,7 +19,7 @@ public class SMSHooks implements IXposedHookLoadPackage {
 		            PendingIntent.class, PendingIntent.class, new XC_MethodHook() { 
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					Logger.Log(lpparam.processName, "android.telephony.SmsManager", "sendTextMessage()", 
+					Logger.Log(lpparam, "android.telephony.SmsManager", "sendTextMessage()", 
 							"To: "+param.args[0]+", From: "+param.args[1] + "Text:" + param.args[2]);
 				}
 			});
@@ -28,7 +28,7 @@ public class SMSHooks implements IXposedHookLoadPackage {
 			findAndHookMethod("android.telephony.SmsManager",lpparam.classLoader, "getDefault", new XC_MethodHook() { 
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					Logger.Log(lpparam.processName, "android.telephony.SmsManager", "getDefault()", "trying to get SMS instance");
+					Logger.Log(lpparam, "android.telephony.SmsManager", "getDefault()", "trying to get SMS instance");
 				}
 			});
 			
@@ -39,7 +39,7 @@ public class SMSHooks implements IXposedHookLoadPackage {
 		            PendingIntent.class, PendingIntent.class, new XC_MethodHook() { 
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					Logger.Log(lpparam.processName, "android.telephony.gsm.SmsManager", "sendTextMessage()", 
+					Logger.Log(lpparam, "android.telephony.gsm.SmsManager", "sendTextMessage()", 
 							"To: "+param.args[0]+", From: "+param.args[1] + "Text:" + param.args[2]);
 				}
 			});

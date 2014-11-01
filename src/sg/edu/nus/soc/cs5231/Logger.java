@@ -12,7 +12,8 @@ public class Logger {
 		Log(lpparam.packageName + "[" + lpparam.processName + "]", class_name, method_name, message);
 	}
 
-	private static void Log(String process_name, String class_name, String method_name, String message) {
+	@Deprecated
+	public static void Log(String process_name, String class_name, String method_name, String message) {
 		if (!isLoggingEnabled(process_name)) {
 			return;
 		}
