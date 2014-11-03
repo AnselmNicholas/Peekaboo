@@ -10,6 +10,8 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class AndroidSettingsHooks implements IXposedHookLoadPackage {
+	static boolean enableTmiMethods = false; //tmi = too much info. False = disable
+	
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 		hookSettings(lpparam); //android.provider.Settings
 		hookSettingsSecure(lpparam); //android.provider.Settings.Secure
@@ -21,7 +23,10 @@ public class AndroidSettingsHooks implements IXposedHookLoadPackage {
 		final String methodConstructor = "Constructor";
 
 		final Class<?> classFinder = findClass(targetClass, lpparam.classLoader);
-
+		
+		//Put your TMI methods here:
+		if(!enableTmiMethods) return;
+		
 		//Constructors
 		hookAllConstructors(classFinder, new XC_MethodHook() { 
 			@Override
@@ -55,6 +60,9 @@ public class AndroidSettingsHooks implements IXposedHookLoadPackage {
 
 		final Class<?> classFinder = findClass(targetClass, lpparam.classLoader);
 
+		//Put your TMI methods here:
+		if(!enableTmiMethods) return;
+		
 		//Constructors
 		hookAllConstructors(classFinder, new XC_MethodHook() { 
 			@Override
@@ -249,6 +257,9 @@ public class AndroidSettingsHooks implements IXposedHookLoadPackage {
 
 		final Class<?> classFinder = findClass(targetClass, lpparam.classLoader);
 
+		//Put your TMI methods here:
+		if(!enableTmiMethods) return;
+		
 		//Constructors
 		hookAllConstructors(classFinder, new XC_MethodHook() { 
 			@Override

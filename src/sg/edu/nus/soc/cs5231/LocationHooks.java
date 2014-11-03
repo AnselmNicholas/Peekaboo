@@ -9,6 +9,8 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class LocationHooks implements IXposedHookLoadPackage {
+	static boolean enableTmiMethods = false; //tmi = too much info. False = disable
+	
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 		hookLocation(lpparam); //android.location.Location
 		hookLocationManager(lpparam); //android.location.LocationManager
@@ -32,6 +34,9 @@ public class LocationHooks implements IXposedHookLoadPackage {
 					"appInfo = "+lpparam.appInfo);
 			}
 		});
+		
+		//Put your TMI methods here:
+		if(!enableTmiMethods) return;
 		
 		//getLongitude()
 		findAndHookMethod(targetClass, lpparam.classLoader, 
@@ -70,6 +75,9 @@ public class LocationHooks implements IXposedHookLoadPackage {
 					"appInfo = "+lpparam.appInfo);
 			}
 		});
+		
+		//Put your TMI methods here:
+		if(!enableTmiMethods) return;
 		
 		//_requestLocationUpdates(String provider, Criteria criteria,
         //	long minTime, float minDistance, boolean singleShot, PendingIntent intent)

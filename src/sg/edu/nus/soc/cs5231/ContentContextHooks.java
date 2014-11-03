@@ -1,5 +1,7 @@
 package sg.edu.nus.soc.cs5231;
 
+//NOTE: THIS THING DOESN'T WORK
+
 import static de.robv.android.xposed.XposedHelpers.*;
 import static de.robv.android.xposed.XposedBridge.*;
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -7,11 +9,16 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class ContentContextHooks implements IXposedHookLoadPackage {
+	static boolean enableTmiMethods = false; //tmi = too much info. False = disable
+	
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 		hookContentContext(lpparam); //android.content.Context
 	}
 
 	private void hookContentContext(final LoadPackageParam lpparam) {
+		//Put your TMI methods here:
+		if(!enableTmiMethods) return;
+		
 		final String targetClass = "android.content.Context";
 		final String classShorthand = "content.Context";
 		
@@ -25,16 +32,16 @@ public class ContentContextHooks implements IXposedHookLoadPackage {
 		final Class<?> classFinder = findClass(targetClass, lpparam.classLoader);
 		
 		//Constructors
-		/*hookAllConstructors(classFinder, new XC_MethodHook() { 
+		hookAllConstructors(classFinder, new XC_MethodHook() { 
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				Logger.Log(lpparam, targetClass, methodConstructor, 
 					classShorthand + " object initialized. "+
 					"appInfo = "+lpparam.appInfo);
 			}
-		});*/
+		});
 
-		/*findAndHookMethod(targetClass, lpparam.classLoader, 
+		findAndHookMethod(targetClass, lpparam.classLoader, 
 				methodGetConnectivityService, String.class, 
 				new XC_MethodHook() {
 			@Override
@@ -86,6 +93,6 @@ public class ContentContextHooks implements IXposedHookLoadPackage {
 				Logger.Log(lpparam, targetClass, methodGetSharedPreferences, 
 						sb.toString() + " Result Class Name = " + param.getResult().getClass().getName());
 			}
-		});*/
+		});
 	}
 }
