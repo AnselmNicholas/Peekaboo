@@ -5,12 +5,11 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import android.content.ContentResolver;
 import android.content.res.Configuration;
+import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
-public class AndroidSettingsHooks {
+public class AndroidSettingsHooks implements IXposedHookLoadPackage {
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 		hookSettings(lpparam); //android.provider.Settings
 		hookSettingsSecure(lpparam); //android.provider.Settings.Secure
@@ -27,10 +26,8 @@ public class AndroidSettingsHooks {
 		hookAllConstructors(classFinder, new XC_MethodHook() { 
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodConstructor) + 
-						"Settings object initialized. "+
-						"appInfo = "+lpparam.appInfo);
+				Logger.Log(lpparam, targetClass, methodConstructor, 
+						"Settings object initialized. "+ "appInfo = "+lpparam.appInfo);
 			}
 		});		
 	}
@@ -62,8 +59,7 @@ public class AndroidSettingsHooks {
 		hookAllConstructors(classFinder, new XC_MethodHook() { 
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodConstructor) + 
+				Logger.Log(lpparam, targetClass, methodConstructor, 
 						targetClassShorthand + " object initialized. "+
 						"appInfo = "+lpparam.appInfo);
 			}
@@ -78,8 +74,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetFloat) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodGetFloat, sb.toString());
 			}
 		});
 
@@ -92,8 +87,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetFloat) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodGetFloat, sb.toString());
 			}
 		});
 
@@ -106,8 +100,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetInt) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodGetInt, sb.toString());
 			}
 		});
 
@@ -120,8 +113,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetInt) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodGetInt, sb.toString());
 			}
 		});
 
@@ -134,8 +126,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetLong) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodGetLong, sb.toString());
 			}
 		});
 
@@ -148,8 +139,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetLong) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodGetLong, sb.toString());
 			}
 		});
 		
@@ -162,22 +152,20 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetString) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodGetString, sb.toString());
 			}
 		});
 		
 		//Settings.Secure.getUri(String)
 		findAndHookMethod(targetClass, lpparam.classLoader, 
-				methodGetUri, ContentResolver.class, String.class, 
+				methodGetUri, String.class,
 				new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetUri) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodGetUri, sb.toString());
 			}
 		});
 		
@@ -190,8 +178,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodPutFloat) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodPutFloat, sb.toString());
 			}
 		});
 
@@ -204,8 +191,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodPutInt) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodPutInt, sb.toString());
 			}
 		});
 		
@@ -218,8 +204,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodPutLong) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodPutLong, sb.toString());
 			}
 		});
 
@@ -232,8 +217,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodPutString) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodPutString, sb.toString());
 			}
 		});
 	}
@@ -269,8 +253,7 @@ public class AndroidSettingsHooks {
 		hookAllConstructors(classFinder, new XC_MethodHook() { 
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodConstructor) + 
+				Logger.Log(lpparam, targetClass, methodConstructor, 
 						targetClassShorthand + " object initialized. "+
 						"appInfo = "+lpparam.appInfo);
 			}
@@ -285,8 +268,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetConfiguration) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodGetConfiguration, sb.toString());
 			}
 		});
 
@@ -299,8 +281,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetFloat) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodGetFloat, sb.toString());
 			}
 		});
 
@@ -313,8 +294,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetFloat) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodGetFloat, sb.toString());
 			}
 		});
 
@@ -327,8 +307,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetInt) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodGetInt, sb.toString());
 			}
 		});
 
@@ -341,8 +320,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetInt) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodGetInt, sb.toString());
 			}
 		});
 
@@ -355,8 +333,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetLong) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodGetLong, sb.toString());
 			}
 		});
 
@@ -369,8 +346,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetLong) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodGetLong, sb.toString());
 			}
 		});
 		
@@ -383,22 +359,20 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetString) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodGetString, sb.toString());
 			}
 		});
 		
 		//Settings.Secure.getUri(String)
 		findAndHookMethod(targetClass, lpparam.classLoader, 
-				methodGetUri, ContentResolver.class, String.class, 
+				methodGetUri, String.class, 
 				new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetUri) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodGetUri, sb.toString());
 			}
 		});
 		
@@ -411,8 +385,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodPutConfiguration) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodPutConfiguration, sb.toString());
 			}
 		});
 		
@@ -425,8 +398,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodPutFloat) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodPutFloat, sb.toString());
 			}
 		});
 
@@ -439,8 +411,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodPutInt) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodPutInt, sb.toString());
 			}
 		});
 		
@@ -453,8 +424,7 @@ public class AndroidSettingsHooks {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodPutLong) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodPutLong, sb.toString());
 			}
 		});
 
@@ -466,9 +436,8 @@ public class AndroidSettingsHooks {
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
-
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodPutString) + sb.toString());
+				
+				Logger.Log(lpparam, targetClass, methodPutString, sb.toString());
 			}
 		});
 	}

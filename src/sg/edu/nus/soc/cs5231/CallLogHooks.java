@@ -5,7 +5,6 @@ import static de.robv.android.xposed.XposedBridge.*;
 import android.content.Context;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class CallLogHooks implements IXposedHookLoadPackage {
@@ -24,10 +23,8 @@ public class CallLogHooks implements IXposedHookLoadPackage {
 		hookAllConstructors(classFinder, new XC_MethodHook() { 
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodConstructor) + 
-						"CallLog object initialized. "+
-						"appInfo = "+lpparam.appInfo);
+				Logger.Log(lpparam, targetClass, methodConstructor, 
+					"CallLog object initialized. "+ "appInfo = "+lpparam.appInfo);
 			}
 		});		
 	}
@@ -43,10 +40,9 @@ public class CallLogHooks implements IXposedHookLoadPackage {
 		hookAllConstructors(classFinder, new XC_MethodHook() { 
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodConstructor) + 
-						"CallLog.Calls object initialized. "+
-						"appInfo = "+lpparam.appInfo);
+				Logger.Log(lpparam, targetClass, methodConstructor, 
+					"CallLog.Calls object initialized. "+
+					"appInfo = "+lpparam.appInfo);
 			}
 		});
 
@@ -56,9 +52,10 @@ public class CallLogHooks implements IXposedHookLoadPackage {
 				new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetLastOutgoingCall) + 
-						"getLastOutgoingCall(Context) invoked.");
+				StringBuilder sb = new StringBuilder();
+				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
+
+				Logger.Log(lpparam, targetClass, methodGetLastOutgoingCall, sb.toString());
 			}
 		});
 	}

@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.provider.ContactsContract.Contacts;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class ContactHooks implements IXposedHookLoadPackage {
@@ -26,10 +25,9 @@ public class ContactHooks implements IXposedHookLoadPackage {
 		hookAllConstructors(classFinder, new XC_MethodHook() { 
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodConstructor) + 
-						"ContactsContract object initialized. "+
-						"appInfo = "+lpparam.appInfo);
+				Logger.Log(lpparam, targetClass, methodConstructor, 
+					"ContactsContract object initialized. "+
+					"appInfo = "+lpparam.appInfo);
 			}
 		});		
 	}
@@ -47,11 +45,10 @@ public class ContactHooks implements IXposedHookLoadPackage {
 		hookAllConstructors(classFinder, new XC_MethodHook() { 
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodConstructor) + 
-						"ContactsContract.Contacts object initialized. "+
-						"appInfo = "+lpparam.appInfo+" "+
-						"Contacts.DISPLAY_NAME_PRIMARY = "+Contacts.DISPLAY_NAME_PRIMARY);
+				Logger.Log(lpparam, targetClass, methodConstructor, 
+					"ContactsContract.Contacts object initialized. "+
+					"appInfo = "+lpparam.appInfo+" "+
+					"Contacts.DISPLAY_NAME_PRIMARY = "+Contacts.DISPLAY_NAME_PRIMARY);
 			}
 		});	
 		
@@ -63,10 +60,14 @@ public class ContactHooks implements IXposedHookLoadPackage {
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
-				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetLookupUri) + sb.toString());
+
+				Logger.Log(lpparam, targetClass, methodGetLookupUri, sb.toString());
 			}
+			
+			//protected void afterHookedMethod() throws Throwable {
+				//Do nothing for now
+				//Supposed to change return object
+			//}
 		});
 		
 		//Contacts.getLookupUri(long contactid, String lookupKey)
@@ -78,8 +79,7 @@ public class ContactHooks implements IXposedHookLoadPackage {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodGetLookupUri) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodGetLookupUri, sb.toString());
 			}
 		});
 		
@@ -91,9 +91,8 @@ public class ContactHooks implements IXposedHookLoadPackage {
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
-				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodLookupContact) + sb.toString());
+
+				Logger.Log(lpparam, targetClass, methodLookupContact, sb.toString());
 			}
 		});
 		
@@ -105,9 +104,8 @@ public class ContactHooks implements IXposedHookLoadPackage {
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
-				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodOpenContactPhotoInputStream) + sb.toString());
+
+				Logger.Log(lpparam, targetClass, methodOpenContactPhotoInputStream, sb.toString());
 			}
 		});
 		
@@ -120,8 +118,7 @@ public class ContactHooks implements IXposedHookLoadPackage {
 				StringBuilder sb = new StringBuilder();
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
-				XposedBridge.log(SharedUtilities.generatePreamble(
-						lpparam.processName, targetClass, methodOpenContactPhotoInputStream) + sb.toString());
+				Logger.Log(lpparam, targetClass, methodOpenContactPhotoInputStream, sb.toString());
 			}
 		});
 	}
