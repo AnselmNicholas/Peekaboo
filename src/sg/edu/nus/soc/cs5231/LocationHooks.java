@@ -12,6 +12,7 @@ public class LocationHooks implements IXposedHookLoadPackage {
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 		hookLocation(lpparam); //android.location.Location
 		hookLocationManager(lpparam); //android.location.LocationManager
+		hookGeocoder(lpparam); //android.location.Geocoder
 	}
 
 	private void hookLocation(final LoadPackageParam lpparam) {
@@ -58,8 +59,6 @@ public class LocationHooks implements IXposedHookLoadPackage {
 		final String methodConstructor = "Constructor";
 		final String methodRequestLocationUpdates = "_requestLocationUpdates";
 		
-		//android.location.LocationManager
-		
 		final Class<?> classFinder = findClass(targetClass, lpparam.classLoader);
 		
 		//Constructors
@@ -84,6 +83,38 @@ public class LocationHooks implements IXposedHookLoadPackage {
 				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
 				
 				Logger.Log(lpparam, targetClass, methodRequestLocationUpdates, sb.toString());
+			}
+		});
+	}
+	
+	private void hookGeocoder(final LoadPackageParam lpparam) {
+		final String targetClass = "android.location.Geocoder";
+		final String methodConstructor = "Constructor";
+		final String methodGetFromLocation = "getFromLocation";
+		
+		final Class<?> classFinder = findClass(targetClass, lpparam.classLoader);
+		
+		//Constructors
+		hookAllConstructors(classFinder, new XC_MethodHook() { 
+			@Override
+			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+				Logger.Log(lpparam, targetClass, methodConstructor, 
+					"Geocoder object initialized. "+
+					"appInfo = "+lpparam.appInfo);
+			}
+		});
+				
+		//getFromLocation(double latitude, double longitude, int maxResults)
+		findAndHookMethod(targetClass, lpparam.classLoader, 
+				methodGetFromLocation, double.class, double.class, int.class, 
+				new XC_MethodHook() {
+			@Override
+			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+				StringBuilder sb = new StringBuilder();
+				for(int i=0; i<param.args.length; i++) sb.append(" args["+i+"] = "+param.args[i]);
+				
+				Logger.Log(lpparam, targetClass, methodGetFromLocation, 
+					sb.toString() + ", Result toString() = " + param.getResult().toString());
 			}
 		});
 	}
