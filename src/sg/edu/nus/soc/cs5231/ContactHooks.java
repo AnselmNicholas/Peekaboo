@@ -10,7 +10,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class ContactHooks implements IXposedHookLoadPackage {
-	static boolean enableTmiMethods = false; //tmi = too much info. False = disable
+	static boolean enableTmiMethods = true; //tmi = too much info. False = disable
 	
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 		if( !PackageWhiteList.IsInWhiteList(lpparam.packageName) )

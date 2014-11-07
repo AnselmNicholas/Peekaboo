@@ -8,6 +8,8 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class CallLogHooks implements IXposedHookLoadPackage {
+	static boolean enableTmiMethods = true; //tmi = too much info. False = disable
+	
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 		if( !PackageWhiteList.IsInWhiteList(lpparam.packageName) )
 		{

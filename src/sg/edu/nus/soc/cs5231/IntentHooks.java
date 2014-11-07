@@ -7,7 +7,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class IntentHooks implements IXposedHookLoadPackage {
-	static boolean enableTmiMethods = false; //tmi = too much info. False = disable
+	static boolean enableTmiMethods = true; //tmi = too much info. False = disable
 	
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 		if( !PackageWhiteList.IsInWhiteList(lpparam.packageName) )
@@ -43,7 +43,10 @@ public class IntentHooks implements IXposedHookLoadPackage {
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 				int sizeLimit = 30;
-				String result = param.getResult().toString();
+				String result;
+				
+				if(param.getResult() != null) result = param.getResult().toString();
+				else result = "Empty Result";
 				
 				if(result.length() > sizeLimit) result = result.substring(0, sizeLimit);
 				
