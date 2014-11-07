@@ -11,14 +11,18 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 public class LowLevelHooks implements IXposedHookLoadPackage {
 	static String [] whiteList = { 	"jp.naver.line.android"	};
 	public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
-		if( !IsInWhiteList(lpparam.processName) )
-		{
-			return;
-		}
+//		if( !IsInWhiteList(lpparam.processName) )
+//		{
+//			return;
+//		}
 //		if(lpparam.packageName.equals("android") || lpparam.packageName.contains(".android.") || lpparam.packageName.contains(".google.") || lpparam.packageName.equals("com.qualcomm.location"))
 //		{
 //			return;
 //		}
+		if( !PackageWhiteList.IsInWhiteList(lpparam.packageName) )
+		{
+			return;
+		}
 		hookLoadSharedLibrary(lpparam);
 		hookExec(lpparam);
 	}

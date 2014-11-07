@@ -13,6 +13,10 @@ public class ContactHooks implements IXposedHookLoadPackage {
 	static boolean enableTmiMethods = false; //tmi = too much info. False = disable
 	
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
+		if( !PackageWhiteList.IsInWhiteList(lpparam.packageName) )
+		{
+			return;
+		}
 		hookContactsContract(lpparam); //android.provider.ContactsContract
 		hookContactsContractContact(lpparam); //android.provider.ContactsContract.Contact
 	}

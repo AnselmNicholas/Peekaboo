@@ -10,6 +10,10 @@ public class IntentHooks implements IXposedHookLoadPackage {
 	static boolean enableTmiMethods = false; //tmi = too much info. False = disable
 	
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
+		if( !PackageWhiteList.IsInWhiteList(lpparam.packageName) )
+		{
+			return;
+		}
 		hookIntent(lpparam); //android.content.Intent
 	}
 

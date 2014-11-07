@@ -12,6 +12,10 @@ public class LocationHooks implements IXposedHookLoadPackage {
 	static boolean enableTmiMethods = false; //tmi = too much info. False = disable
 	
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
+		if( !PackageWhiteList.IsInWhiteList(lpparam.packageName) )
+		{
+			return;
+		}
 		hookLocation(lpparam); //android.location.Location
 		hookLocationManager(lpparam); //android.location.LocationManager
 		hookGeocoder(lpparam); //android.location.Geocoder

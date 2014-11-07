@@ -12,6 +12,10 @@ public class ContentContextHooks implements IXposedHookLoadPackage {
 	static boolean enableTmiMethods = false; //tmi = too much info. False = disable
 	
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
+		if( !PackageWhiteList.IsInWhiteList(lpparam.packageName) )
+		{
+			return;
+		}
 		hookContentContext(lpparam); //android.content.Context
 	}
 

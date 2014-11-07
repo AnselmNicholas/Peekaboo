@@ -8,6 +8,10 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 public class MediaRecorderHooks implements IXposedHookLoadPackage {
 	
 		public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
+			if( !PackageWhiteList.IsInWhiteList(lpparam.packageName) )
+			{
+				return;
+			}
 				hookMediaRecorder(lpparam);
 		}
 			

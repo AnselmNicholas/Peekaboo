@@ -9,6 +9,10 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 public class CameraHooks implements IXposedHookLoadPackage {
 	
 		public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
+			if( !PackageWhiteList.IsInWhiteList(lpparam.packageName) )
+			{
+				return;
+			}
 				hookCamera(lpparam);
 		}
 			

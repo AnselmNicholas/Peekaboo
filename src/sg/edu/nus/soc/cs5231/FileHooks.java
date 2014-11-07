@@ -64,7 +64,7 @@ public class FileHooks implements IXposedHookLoadPackage {
 		public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
 //				XposedBridge.log(lpparam.packageName + " is loaded...");
 				//getSettingsFromDB(lpparam.processName);
-				if( !IsInBlackList(lpparam.processName) )
+				if( !PackageWhiteList.IsInWhiteList(lpparam.packageName) )
 				{
 					return;
 				}

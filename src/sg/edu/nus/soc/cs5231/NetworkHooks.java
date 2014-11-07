@@ -23,7 +23,10 @@ public class NetworkHooks implements IXposedHookLoadPackage {
 		// if (lpparam.packageName.equals("android"))
 		// return;
 		//
-
+		if( !PackageWhiteList.IsInWhiteList(lpparam.packageName) )
+		{
+			return;
+		}
 		hookServerSocket(lpparam);
 		hookSocket(lpparam);
 		hookDatagramSocket(lpparam);

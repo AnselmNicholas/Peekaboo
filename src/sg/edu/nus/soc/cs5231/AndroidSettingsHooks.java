@@ -13,6 +13,10 @@ public class AndroidSettingsHooks implements IXposedHookLoadPackage {
 	static boolean enableTmiMethods = false; //tmi = too much info. False = disable
 	
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
+		if( !PackageWhiteList.IsInWhiteList(lpparam.packageName) )
+		{
+			return;
+		}
 		hookSettings(lpparam); //android.provider.Settings
 		hookSettingsSecure(lpparam); //android.provider.Settings.Secure
 		hookSettingsSystem(lpparam); //android.provider.Settings.System
