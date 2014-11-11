@@ -41,6 +41,20 @@ public class LowLevelHooks implements IXposedHookLoadPackage {
 				Logger.Log(lpparam, "java.lang.System", "loadLibrary()", "trying to load shared library \"" + param.args[0] + "\"");
 			}
 		});
+		
+		findAndHookMethod("java.lang.Runtime", lpparam.classLoader, "loadLibrary", String.class, new XC_MethodHook() {
+			@Override
+			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+				Logger.Log(lpparam, "java.lang.Runtime", "loadLibrary()", "trying to load shared library \"" + param.args[0] + "\"");
+			}
+		});
+		
+		findAndHookMethod("java.lang.Runtime", lpparam.classLoader, "load", String.class, new XC_MethodHook() {
+			@Override
+			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+				Logger.Log(lpparam, "java.lang.Runtime", "load()", "trying to load shared library at \"" + param.args[0] + "\"");
+			}
+		});
 	}
 	
 	private void hookExec(final LoadPackageParam lpparam)
