@@ -42,11 +42,14 @@ public class IntentHooks implements IXposedHookLoadPackage {
 				methodGetAction, new XC_MethodHook() {
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-				int sizeLimit = 30;
+				int sizeLimit = 50;
 				String result;
 				
-				if(param.getResult() != null) result = param.getResult().toString();
-				else result = "Empty Result";
+				if(param != null && param.getResult() != null) {
+					result = param.getResult().toString();
+				} else {
+					result = "Empty Result";
+				}
 				
 				if(result.length() > sizeLimit) result = result.substring(0, sizeLimit);
 				
