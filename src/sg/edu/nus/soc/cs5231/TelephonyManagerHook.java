@@ -50,7 +50,8 @@ public class TelephonyManagerHook implements IXposedHookLoadPackage {
 		findAndHookMethod("android.telephony.TelephonyManager", lpparam.classLoader, "getDeviceId", new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				Logger.Log(lpparam, "android.telephony.TelephonyManager", "getDeviceId()", "trying to get unique device ID, for example, the IMEI for GSM and the MEID or ESN for CDMA phones.");
+				param.setResult("000000000000000");
+				Logger.Log(lpparam, "android.telephony.TelephonyManager", "getDeviceId()", " returning fake IMEI \"000000000000000\"");
 			}
 		});
 		//getDeviceSoftwareVersion
@@ -64,7 +65,8 @@ public class TelephonyManagerHook implements IXposedHookLoadPackage {
 		findAndHookMethod("android.telephony.TelephonyManager", lpparam.classLoader, "getLine1Number", new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				Logger.Log(lpparam, "android.telephony.TelephonyManager", "getLine1Number()", "trying to get phone number string for line 1, for example, the MSISDN for a GSM phone.");
+				param.setResult("88888888");
+				Logger.Log(lpparam, "android.telephony.TelephonyManager", "getLine1Number()", " returning fake telephone number \"88888888\"");
 			}
 		});
 		//getNeighboringCellInfo
