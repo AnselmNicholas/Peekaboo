@@ -13,3 +13,4 @@ sg.edu.nus.soc.cs5231.ContentContextHooks
 sg.edu.nus.soc.cs5231.LocationHooks
 sg.edu.nus.soc.cs5231.IntentHooks
 sg.edu.nus.soc.cs5231.AndroidSettingsHooks
+sg.edu.nus.soc.cs5231.TelephonyManagerHook
